@@ -4,27 +4,8 @@
     <title>Ismeros arcok</title>
 </head>
 <body>
-   <b>igazan ismerosek ezek az arcok</b>
-    <button onclick="playVideo()">Videó Lejátszása</button>
-    <div id="videoContainer"></div>
-
-    <script>
-        function playVideo() 
-            const videoId = 'ISMEROSARCOKNELKULED';
-            const videoUrl = `https://www.youtube.com/watch?v=KmUMvShEq-E`;
-            
-            const iframe = document.createElement('iframe');
-            iframe.setAttribute('width', '560');
-            iframe.setAttribute('height', '315');
-            iframe.setAttribute('src', videoUrl);
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
-            iframe.setAttribute('allowfullscreen', '');
-
-            const container = document.getElementById('videoContainer');
-            container.innerHTML = '';
-            container.appendChild(iframe);
-        }
-    </script>
+   <b>Igazan ismerosek ezek az arcok</b>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/KmUMvShEq-E?si=EzL5Ixkk4QLiz5S8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    
 </body>
 </html>
