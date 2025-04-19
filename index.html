@@ -5,5 +5,28 @@
 </head>
 <body>
    <b>igazan ismerosek ezek az arcok</b>
+    <button onclick="playVideo()">Videó Lejátszása</button>
+    <div id="videoContainer"></div>
+
+    <script>
+        function playVideo() 
+            const videoId = 'ISMEROSARCOKNELKULED';
+            const videoUrl = `https://www.youtube.com/watch?v=KmUMvShEq-E`;
+            
+            const iframe = document.createElement('iframe');
+            iframe.setAttribute('width', '560');
+            iframe.setAttribute('height', '315');
+            iframe.setAttribute('src', videoUrl);
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+            iframe.setAttribute('allowfullscreen', '');
+
+            const container = document.getElementById('videoContainer');
+            container.innerHTML = '';
+            container.appendChild(iframe);
+        }
+    </script>
+</body>
+</html>
 </body>
 </html>
