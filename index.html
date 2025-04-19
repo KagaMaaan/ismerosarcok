@@ -1,11 +1,113 @@
-<!DOCTYPE html>
-<html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="hu">
 <head>
-    <title>Ismeros arcok</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Videó Gombos Lejátszással</title>
+    <style>
+        #player {
+            display: none;
+            margin-top: 20px;
+        }
+        #playButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #playButton:hover {
+            background-color: #cc0000;
+        }
+    </style>
 </head>
 <body>
-   <b>Igazan ismerosek ezek az arcok</b>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/KmUMvShEq-E?si=EzL5Ixkk4QLiz5S8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    
+    <div id="player"></div>
+    <button id="playButton">Videó Lejátszása</button>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        var player;
+
+        document.getElementById('playButton').onclick = function() {
+            if (typeof YT !== 'undefined' && YT.loaded) {
+                player = new YT.Player('player', {
+                    height: '315',
+                    width: '560',
+                    videoId: 'KmUMvShEq-E',
+                    playerVars: {
+                        'si': 'EzL5Ixkk4QLiz5S8'
+                    },
+                    events: {
+                        'onReady': function(event) {
+                            document.getElementById('player').style.display = 'block';
+                            event.target.playVideo();
+                        }
+                    }
+                });
+            } else {
+                setTimeout(function() {
+                    if (typeof YT !== 'undefined' && YT.loaded) {
+                        player = new YT.Player('player', {
+                            height: '315',
+                            width: '560',
+                            videoId: 'KmUMvShEq-E',
+                            playerVars: {
+                                'si': 'EzL5Ixkk4QLiz5S8'
+                            },
+                            events: {
+                                'onReady': function(event) {
+                                    document.getElementById('player').style.display = 'block';
+                                    event.target.playVideo();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('A YouTube API nem töltődött be.');
+                    }
+                }, 1000);
+            }
+        };
+    </script>
 </body>
 </html>
