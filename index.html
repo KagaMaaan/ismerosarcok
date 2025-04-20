@@ -1,52 +1,16 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hu">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ismerosarcoknelkuled</title>
+    <title>Ismerős Arcok - Nélküled</title>
     <style>
         #player {
             display: none;
             margin-top: 20px;
+            width: 100%;
+            max-width: 560px;
+            aspect-ratio: 16/9;
         }
         #playButton {
             padding: 10px 20px;
@@ -60,55 +24,56 @@
         #playButton:hover {
             background-color: #cc0000;
         }
+        .center {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div id="player"></div>
-    <button id="playButton">Ismerős Arcok - Nélküled gonb</button>
+    <button id="playButton" aria-label="Play Ismerős Arcok - Nélküled video">Ismerős Arcok - Nélküled gomb</button>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        var player;
+        let player;
+        const playButton = document.getElementById('playButton');
 
-        document.getElementById('playButton').onclick = function() {
+        playButton.onclick = function() {
             if (typeof YT !== 'undefined' && YT.loaded) {
-                player = new YT.Player('player', {
-                    height: '315',
-                    width: '560',
-                    videoId: 'KmUMvShEq-E',
-                    playerVars: {
-                        'si': 'EzL5Ixkk4QLiz5S8'
-                    },
-                    events: {
-                        'onReady': function(event) {
-                            document.getElementById('player').style.display = 'block';
-                            event.target.playVideo();
-                        }
-                    }
-                });
+                initializePlayer();
             } else {
-                setTimeout(function() {
+                let retries = 0;
+                const maxRetries = 3;
+                const retryInterval = setInterval(() => {
                     if (typeof YT !== 'undefined' && YT.loaded) {
-                        player = new YT.Player('player', {
-                            height: '315',
-                            width: '560',
-                            videoId: 'KmUMvShEq-E',
-                            playerVars: {
-                                'si': 'EzL5Ixkk4QLiz5S8'
-                            },
-                            events: {
-                                'onReady': function(event) {
-                                    document.getElementById('player').style.display = 'block';
-                                    event.target.playVideo();
-                                }
-                            }
-                        });
-                    } else {
-                        alert('A YouTube API nem töltődött be.');
+                        clearInterval(retryInterval);
+                        initializePlayer();
+                    } else if (retries >= maxRetries) {
+                        clearInterval(retryInterval);
+                        alert('A YouTube API nem töltődött be. Kérjük, próbálja újra később.');
                     }
+                    retries++;
                 }, 1000);
             }
         };
+
+        function initializePlayer() {
+            player = new YT.Player('player', {
+                height: '100%',
+                width: '100%',
+                videoId: 'KmUMvShEq-E',
+                playerVars: { 'si': 'EzL5Ixkk4QLiz5S8' },
+                events: {
+                    'onReady': (event) => {
+                        document.getElementById('player').style.display = 'block';
+                        event.target.playVideo();
+                    },
+                    'onError': () => {
+                        alert('Hiba történt a videó betöltése közben.');
+                    }
+                }
+            });
+        }
     </script>
-        <center><a href="ismeros1.html">test</a></center>
+    <div class="center"><a href="ismeros1.html">test</a></div>
 </body>
 </html>
