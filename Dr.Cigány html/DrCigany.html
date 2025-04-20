@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Cigány</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(to bottom, #8b4513, #deb887);
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        header nav {
+            margin-top: 10px;
+        }
+        header nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 5px 10px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        header nav a:hover {
+            background: #fff;
+            color: #8b4513;
+            border: 2px solid #8b4513;
+        }
+        section {
+            padding: 2rem;
+        }
+        footer {
+            background: #6b3f1a;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            font-family: 'Georgia', serif;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+        }
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .gallery img {
+            max-width: 200px;
+            border: 10px solid #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+            display: block;
+            background: #fff;
+            padding: 10px;
+            transform: rotate(-2deg);
+            transition: transform 0.2s;
+        }
+        .gallery img:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+        /* Design a bemutatkozáshoz és az élettörténethez */
+        #bemutatkozas, #eletut {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #bemutatkozas h2, #eletut h2 {
+            color: #333;
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        #bemutatkozas p, #eletut p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Extra margó a szekciókhoz, hogy a szövegek jobban látszódjanak */
+        #bemutatkozas, #eletut {
+            margin-top: 100px;
+        }
+
+        /* Elérhetőségi szekció design */
+        #elerhetoseg {
+            background: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        #elerhetoseg h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        #elerhetoseg a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: #fff;
+            background: #8b4513;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            transition: background 0.3s ease;
+        }
+        #elerhetoseg a:hover {
+            background: #deb887;
+        }
+        /* Logók stílusa */
+        #elerhetoseg img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        #elerhetoseg a {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Háttérszín összekötése a fejléccel */
+        body {
+            background: linear-gradient(to bottom, #deb887, #f4f4f4);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Szövegek border design */
+        #bemutatkozas, #eletut, #elerhetoseg {
+            border: 2px solid #8b4513;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Sötétebb szín a szövegek designjához */
+        #bemutatkozas, #eletut, #elerhetoseg {
+            background: rgba(220, 200, 180, 0.9);
+            border: 2px solid #6b3f1a;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Régies, elegáns betűtípus beállítása */
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+        }
+
+        /* Ecsetvonás-effektus animáció */
+        @keyframes brushStroke {
+            0% {
+                clip-path: inset(0 100% 0 0);
+            }
+            100% {
+                clip-path: inset(0 0 0 0);
+            }
+        }
+
+        h1, h2 {
+            display: inline-block;
+            animation: brushStroke 1.5s ease-out;
+        }
+
+        /* Legördülő menü stílus */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            right: 0;
+            left: auto;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #deb887;
+        }
+
+        .dropbtn {
+            background-color: #8b4513;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Fejléc logó és pozíció stílus */
+        .header-logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        /* Gömbölyű logó stílus */
+        .header-logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0));
+        }
+
+        /* Menü animáció hoverre */
+        .dropbtn {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .dropbtn:hover {
+            transform: scale(1.1);
+            background-color: #deb887;
+        }
+
+        .dropdown-content a {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #deb887;
+            color: #fff;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Animált sketchek megjelenése a háttérben */
+        @keyframes appear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1) rotate(10deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) rotate(0deg);
+            }
+        }
+
+        .sketch {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: appear 10s ease-in-out infinite;
+            opacity: 0;
+        }
+
+        .sketch:nth-child(1) {
+            background-image: url('sketch1.png');
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .sketch:nth-child(2) {
+            background-image: url('sketch2.png');
+            top: 50%;
+            left: 30%;
+            animation-delay: 3s;
+        }
+
+        .sketch:nth-child(3) {
+            background-image: url('sketch3.png');
+            top: 70%;
+            left: 70%;
+            animation-delay: 6s;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="images/drlogo.png" alt="Dr. Cigány logó" class="header-logo">
+        <h1>Dr. Cigány</h1>
+        <div class="dropdown">
+            <button class="dropbtn">Menü</button>
+            <div class="dropdown-content">
+                <a href="#bemutatkozas">Bemutatkozás</a>
+                <a href="#eletut">Életút</a>
+                <a href="#galleria">Galéria</a>
+                <a href="#elerhetoseg">Elérhetőségek</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section id="bemutatkozas">
+            <h2>Bemutatkozás</h2>
+            <p>Üdvözlöm! Dr. Farkas Levente vagyok, orvos és művész, aki az életét annak szentelte, hogy a tudomány és a művészetek világát összekapcsolja. Szakmai pályafutásom során mindig is arra törekedtem, hogy a tudományos ismereteket és a művészeti kifejezésmódokat ötvözzem, hogy olyan új perspektívákat nyújtsak, amelyek segítenek megérteni az emberek testi és lelki világát.
+
+                Orvosi végzettségemmel és tapasztalataimmal a művészetek gyógyító hatását kutatom, hiszen úgy vélem, hogy a művészetek nemcsak szórakoztatnak, hanem képesek gyógyítani is – mentálisan és érzelmileg egyaránt. Az egyik legfontosabb kutatási területem az "Art & Healing" (Művészet és Gyógyulás), amelyben a művészetek terápiás hatásait vizsgálom különböző betegségek, főleg mentális problémák kezelésében.
+                
+                Művészeti munkáimban gyakran foglalkozom a társadalmi problémákkal, különösen a roma közösségek helyzetével és kulturális örökségével. Hiszem, hogy a művészetek és a tudomány segítségével hozzájárulhatok egy nyitottabb és elfogadóbb társadalom kialakításához. Munkáim, amelyek között festmények, szobrok és fotográfiák is megtalálhatók, a társadalmi diskurzust kívánják elindítani és reflektálnak a társadalmi különbségekre és identitásokra.
+                
+                A "Dr. Cigány" név alatt publikált írásaim és művészeti alkotásaim célja, hogy olyan párbeszédeket indítsak el, amelyek segítenek megérteni és tisztelni a különböző kultúrák és identitások sokszínűségét. Az én küldetésem az, hogy a tudomány és a művészetek határainak átlépésével új válaszokat találjunk a társadalom kérdéseire.
+                
+                </p>
+        </section>
+        <section id="eletut">
+            <h2>Életút</h2>
+            <p>Dr. Farkas Levente 1980-as évek elején született egy közép-magyarországi kisvárosban, ahol már fiatalon megmutatkozott a művészetek iránti vonzalma. Családja egyszerű értelmiségi háttérrel rendelkezett, apja híres orvos volt, édesanyja pedig pedagógusként dolgozott. Levente már gyermekkorában is különleges érdeklődést mutatott a tudományos és művészeti világ iránt, és hamarosan egyensúlyt talált a két világ között.
+
+                Tizenkét éves korára már komoly művészeti tevékenységet folytatott, festett és zenét is szerzett, miközben az iskolában kitűnt szorgalmával és intellektuális kíváncsiságával. Érettségi után a helyi egyetemen orvostudományt tanult, de a művészetek iránti szenvedélyét sem hagyta hátra. Hamarosan felfedezte, hogy a tudományos világ és a művészeti világ között egy erős kapcsolat rejlik, amelyben képes egyedülálló módon híd szerepét betölteni.
+                
+                Azt vallotta, hogy a művészetek segíthetnek a tudományos gondolkodás gazdagításában, míg a tudomány segíthet az érzelmek és a művészetek mélyebb megértésében. Egyik legfontosabb munkája az "Art & Healing" (Művészet és Gyógyulás) című kutatás volt, amelyben azt vizsgálta, hogyan befolyásolhatja a művészetekkel való foglalkozás az emberek mentális és fizikai egészségét. Ennek köszönhetően számos kórházban és klinikán alkalmazták különböző művészeti terápiáit.
+                
+                Dr. Farkas Levente művészeti munkássága is figyelemre méltó volt. Kiállításokat rendezett és számos olyan műalkotást hozott létre, amelyek a társadalmi és politikai kérdésekre reflektáltak. Festményei, szobrai és fotográfiái mély társadalmi üzeneteket közvetítettek, amelyek különösen a romák helyzetére és kulturális örökségére irányították a figyelmet. Munkáit többek között a nemzetközi művészeti közösség is elismerte, és több díjat is nyert, ami lehetőséget biztosított számára, hogy világszerte bemutassa alkotásait.
+                
+                A "Dr. Cigány" név az ő művészeti alteregójává vált, amellyel a társadalmi és politikai diskurzusban való részvételt is megkönnyítette. A név mögött rejlő szimbolikus jelentés lehetőséget adott neki, hogy komoly diskurzust indítson a romák társadalmi integrációjáról, művészeti hozzájárulásukról és az identitás megélésének sokszínűségéről. A Dr. Cigány név alatt írt esszéi és könyvei igazi szellemi örökséggé váltak, amelyek a művészetek és a tudomány határvonalán egyensúlyozva keresnek választ a mai társadalom kérdéseire.
+                
+                A tudományos és művészeti pályája mellett Dr. Farkas Levente mentorként is jelentős szerepet vállalt. Sok fiatal művészt és tudóst inspirált arra, hogy ne féljenek a konvencióktól, hanem bátran keresgéljenek a tudomány és művészet határterületein. Emellett közéleti szereplőként is aktívan részt vett a társadalmi változások előmozdításában, és mindvégig hirdette a tudás szabadságát, valamint a különböző kultúrák és társadalmi rétegek közötti párbeszéd fontosságát.
+                
+                </p>
+        </section>
+        <section id="galleria">
+            <h2>Galéria</h2>
+            <div class="gallery">
+                <img src="images/happycigany.jpg" alt="Dr. Cigány képe 1">
+                <img src="images/sigmacigany.jpg" alt="Dr. Cigány képe 2">
+                <img src="images/Cigany1.jpg" alt="Dr. Cigány képe 3">
+                
+            </div>
+        </section>
+        <section id="elerhetoseg">
+            <h2>Elérhetőségek</h2>
+            <a href="https://www.instagram.com" target="_blank">
+                <img src="images/Instagramicon.png" alt="Instagram logó">Instagram
+            </a>
+            <a href="https://www.facebook.com" target="_blank">
+                <img src="images/Facebooklogo.png" alt="Facebook logó">Facebook
+            </a>
+            <a href="https://www.youtube.com" target="_blank">
+                <img src="images/Youtube_logo.png" alt="YouTube logó">YouTube
+            </a>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Dr. Cigány. Minden jog fenntartva.</p>
+    </footer>
+    <div class="doodle"></div>
+    <div class="doodle"></div>
+    <div class="doodle"></div>
+    <div class="doodle"></div>
+    <div class="sketch"></div>
+    <div class="sketch"></div>
+    <div class="sketch"></div>
+</body>
+</html>
