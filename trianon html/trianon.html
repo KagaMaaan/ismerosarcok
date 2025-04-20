@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vesszen Trianon!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            animation: backgroundFlash 1s infinite alternate;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 50px;
+            margin-top: 20px;
+            animation: textFlash 0.5s infinite alternate;
+        }
+
+        p {
+            text-align: center;
+            font-size: 20px;
+            margin: 20px;
+            animation: textMove 3s infinite alternate;
+        }
+
+        @keyframes backgroundFlash {
+            0% { background-color: red; }
+            50% { background-color: white; }
+            100% { background-color: green; }
+        }
+
+        @keyframes textFlash {
+            0% { color: white; }
+            50% { color: red; }
+            100% { color: yellow; }
+        }
+
+        @keyframes textMove {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(20px); }
+        }
+
+        .rotating-box {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: none;
+            animation: rotateBox 2s infinite linear;
+            transform-origin: center;
+        }
+
+        .rotating-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        @keyframes rotateBox {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .flashing-circle {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, white, transparent);
+            border-radius: 50%;
+            animation: circleFlash 1s infinite alternate;
+            transform: translateX(-50%);
+        }
+
+        @keyframes circleFlash {
+            0% { opacity: 0.5; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Bouncing image styles */
+        .bouncing-image {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: url('image/horthy.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Epilepsy warning styles */
+        .epilepsy-warning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .epilepsy-warning button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .epilepsy-warning button:hover {
+            background-color: darkred;
+        }
+
+        .epilepsy-warning button.back-button {
+            background-color: gray;
+            margin-left: 10px;
+        }
+
+        .epilepsy-warning button.back-button:hover {
+            background-color: darkgray;
+        }
+    </style>
+</head>
+<body>
+    <div class="epilepsy-warning" id="epilepsyWarning">
+        <div>
+            <p>FIGYELEM: Ez az oldal gyorsan villogó fényeket tartalmaz, amelyek epilepsziás rohamokat okozhatnak.</p>
+            <button onclick="dismissWarning()">Elfogadom</button>
+            <button class="back-button" onclick="goBack()">Vissza</button>
+        </div>
+    </div>
+    <h1>Trianon</h1>
+    <p>A történelmi esemény, amely örökre megváltoztatta Magyarországot.</p>
+    <!-- General information about Trianon -->
+    <div style="text-align: center; margin: 20px; font-size: 18px;">
+        <p><strong>Magyar:</strong> A trianoni békeszerződés 1920-ban íródott alá, amely Magyarország területének jelentős részét elcsatolta.</p>
+        <p><strong>English:</strong> The Treaty of Trianon was signed in 1920, which resulted in Hungary losing a significant portion of its territory.</p>
+        <p><strong>Français:</strong> Le traité de Trianon a été signé en 1920, entraînant la perte d'une grande partie du territoire hongrois.</p>
+        <p><strong>Deutsch:</strong> Der Vertrag von Trianon wurde 1920 unterzeichnet, wodurch Ungarn einen erheblichen Teil seines Territoriums verlor.</p>
+        <p><strong>Español:</strong> El Tratado de Trianon se firmó en 1920, lo que resultó en la pérdida de una parte significativa del territorio de Hungría.</p>
+        <p><strong>Italiano:</strong> Il Trattato del Trianon fu firmato nel 1920, causando la perdita di una parte significativa del territorio ungherese.</p>
+        <p><strong>Русский:</strong> Трианонский договор был подписан в 1920 году, что привело к утрате значительной части территории Венгрии.</p>
+        <p><strong>中文:</strong> 《特里亚农条约》于1920年签署，导致匈牙利失去了大部分领土。</p>
+        <p><strong>日本語:</strong> トリアノン条約は1920年に締結され、ハンガリーは領土の大部分を失いました。</p>
+        <p><strong>한국어:</strong> 트리아농 조약은 1920년에 체결되어 헝가리는 영토의 상당 부분을 잃었습니다.</p>
+        <p><strong>Latin:</strong> Foedus Trianon anno 1920 signatum est, quo Hungaria magnam partem territorii amisit.</p>
+        <p><strong>Ancient Greek:</strong> Ἡ Συνθήκη τοῦ Τριανόν ἐπεγράφη τῷ 1920, ὅπερ ἀπώλεσε ἡ Οὐγγαρία μέγα μέρος τῆς χώρας αὐτῆς.</p>
+        <p><strong>Sanskrit:</strong> त्रियानोन संधिः १९२० तमे वर्षे हस्ताक्षरीकृता, येन हङ्गरी देशस्य महती भूमेः हानिः अभवत्।</p>
+        <p><strong>Old English:</strong> Þæt Trianon Grið wæs on 1920 gewriten, þæt forþyngde þæt Hungaraland micel dæl his eardes forleas.</p>
+        <p><strong>Old Norse:</strong> Trianon-sáttmálin var undirritaður árið 1920, sem olli því að Ungverjaland missti stóran hluta lands síns.</p>
+        <p><strong>Esperanto:</strong> La Traktato de Trianon estis subskribita en 1920, rezultigante la perdon de granda parto de la teritorio de Hungario.</p>
+        <p><strong>Hebrew:</strong> חוזה טריאנון נחתם בשנת 1920, וכתוצאה מכך הונגריה איבדה חלק ניכר משטחה.</p>
+        <p><strong>Arabic:</strong> تم توقيع معاهدة تريانون في عام 1920، مما أدى إلى فقدان المجر جزءًا كبيرًا من أراضيها.</p>
+       
+    <!-- Add audio element -->
+    <audio id="trianonAudio" src="trianon.mp3"></audio>
+    <!-- Update all rotating cubes to use the same image -->
+    <div class="rotating-box" style="top: 30%; left: 30%;">
+        <img src="image/trianon1.jpg" alt="Rotating Image">
+    </div>
+    <div class="rotating-box" style="top: 70%; left: 70%;">
+        <img src="image/trianon1.jpg" alt="Rotating Image">
+    </div>
+    <div class="rotating-box" style="top: 50%; left: 50%;">
+        <img src="image/trianon1.jpg" alt="Rotating Image">
+    </div>
+    <div class="rotating-box" style="top: 20%; left: 80%;">
+        <img src="image/trianon1.jpg" alt="Rotating Image">
+    </div>
+    <div class="rotating-box" style="top: 80%; left: 20%;">
+        <img src="image/trianon1.jpg" alt="Rotating Image">
+    </div>
+    <div class="flashing-circle"></div>
+    <!-- Add more pulsing circles -->
+    <div class="flashing-circle" style="bottom: 20%; left: 30%;"></div>
+    <div class="flashing-circle" style="bottom: 40%; left: 70%;"></div>
+    <div class="flashing-circle" style="bottom: 60%; left: 50%;"></div>
+    <div class="flashing-circle" style="bottom: 15%; left: 10%;"></div>
+    <div class="flashing-circle" style="bottom: 25%; left: 80%;"></div>
+    <div class="flashing-circle" style="bottom: 50%; left: 20%;"></div>
+    <div class="flashing-circle" style="bottom: 70%; left: 60%;"></div>
+    <!-- Add the bouncing image -->
+    <div class="bouncing-image" id="bouncingImage"></div>
+    <!-- Add two more constantly moving Horthy images -->
+    <div class="bouncing-image" id="bouncingImage2"></div>
+    <div class="bouncing-image" id="bouncingImage3"></div>
+    <!-- Add more bouncing images -->
+    <div class="bouncing-image" id="bouncingImage4"></div>
+    <div class="bouncing-image" id="bouncingImage5"></div>
+    <!-- Add hidden images for random pop-out -->
+    <div class="random-image" id="randomImage1" style="display: none; background: url('image/meme1.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage2" style="display: none; background: url('image/meme2.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage3" style="display: none; background: url('image/meme3.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage4" style="display: none; background: url('image/meme4.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage5" style="display: none; background: url('image/meme5.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage6" style="display: none; background: url('image/meme6.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage7" style="display: none; background: url('image/meme7.jpg') no-repeat center center;"></div>
+    <div class="random-image" id="randomImage8" style="display: none; background: url('image/meme8.jpg') no-repeat center center;"></div>
+    <audio id="popSound" src="myinstants.mp3"></audio>
+    <script>
+        const phrases = [
+            "Trianon 1920",
+            "Emlékezzünk!",
+            "Igazságot Magyarországnak!",
+            "Soha többé!",
+            "Trianon fájdalma",
+            "Együtt a nemzet!",
+            "Trianon emléke",
+            "Nem felejtünk!",
+            "Trianon öröksége",
+            "Nem Nem Soha!",
+
+        ];
+
+        const body = document.body;
+        setInterval(() => {
+            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+            const flashText = document.createElement('div');
+            flashText.innerText = randomPhrase;
+            flashText.style.position = 'absolute';
+            flashText.style.top = `${Math.random() * 100}vh`;
+            flashText.style.left = `${Math.random() * 100}vw`;
+            flashText.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            flashText.style.fontSize = `${Math.random() * 30 + 20}px`;
+            flashText.style.animation = 'fadeOut 2s forwards';
+            body.appendChild(flashText);
+
+            setTimeout(() => flashText.remove(), 2000);
+        }, 200); // Reduced interval to 200ms for more frequent popups
+
+        // Fade out animation for flashing text
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeOut {
+                0% { opacity: 1; }
+                100% { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Bouncing image logic
+        const bouncingImage = document.getElementById('bouncingImage');
+        let x = 0, y = 0; // Initial position
+        let dx = 2, dy = 2; // Movement increments
+
+        function moveBouncingImage() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const imageWidth = bouncingImage.offsetWidth;
+            const imageHeight = bouncingImage.offsetHeight;
+
+            // Update position
+            x += dx;
+            y += dy;
+
+            // Bounce off edges
+            if (x + imageWidth > containerWidth || x < 0) dx = -dx;
+            if (y + imageHeight > containerHeight || y < 0) dy = -dy;
+
+            // Apply new position
+            bouncingImage.style.left = `${x}px`;
+            bouncingImage.style.top = `${y}px`;
+
+            requestAnimationFrame(moveBouncingImage);
+        }
+
+        // Start the animation
+        moveBouncingImage();
+
+        // Logic for the second bouncing image
+        const bouncingImage2 = document.getElementById('bouncingImage2');
+        let x2 = 100, y2 = 100; // Initial position
+        let dx2 = 3, dy2 = 3; // Movement increments
+
+        function moveBouncingImage2() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const imageWidth = bouncingImage2.offsetWidth;
+            const imageHeight = bouncingImage2.offsetHeight;
+
+            // Update position
+            x2 += dx2;
+            y2 += dy2;
+
+            // Bounce off edges
+            if (x2 + imageWidth > containerWidth || x2 < 0) dx2 = -dx2;
+            if (y2 + imageHeight > containerHeight || y2 < 0) dy2 = -dy2;
+
+            // Apply new position
+            bouncingImage2.style.left = `${x2}px`;
+            bouncingImage2.style.top = `${y2}px`;
+
+            requestAnimationFrame(moveBouncingImage2);
+        }
+
+        // Logic for the third bouncing image
+        const bouncingImage3 = document.getElementById('bouncingImage3');
+        let x3 = 200, y3 = 200; // Initial position
+        let dx3 = 4, dy3 = 4; // Movement increments
+
+        function moveBouncingImage3() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const imageWidth = bouncingImage3.offsetWidth;
+            const imageHeight = bouncingImage3.offsetHeight;
+
+            // Update position
+            x3 += dx3;
+            y3 += dy3;
+
+            // Bounce off edges
+            if (x3 + imageWidth > containerWidth || x3 < 0) dx3 = -dx3;
+            if (y3 + imageHeight > containerHeight || y3 < 0) dy3 = -dy3;
+
+            // Apply new position
+            bouncingImage3.style.left = `${x3}px`;
+            bouncingImage3.style.top = `${y3}px`;
+
+            requestAnimationFrame(moveBouncingImage3);
+        }
+
+        // Start the animations
+        moveBouncingImage2();
+        moveBouncingImage3();
+
+        // Logic for the fourth bouncing image
+        const bouncingImage4 = document.getElementById('bouncingImage4');
+        let x4 = 150, y4 = 150; // Initial position
+        let dx4 = 3, dy4 = 2; // Movement increments
+
+        function moveBouncingImage4() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const imageWidth = bouncingImage4.offsetWidth;
+            const imageHeight = bouncingImage4.offsetHeight;
+
+            // Update position
+            x4 += dx4;
+            y4 += dy4;
+
+            // Bounce off edges
+            if (x4 + imageWidth > containerWidth || x4 < 0) dx4 = -dx4;
+            if (y4 + imageHeight > containerHeight || y4 < 0) dy4 = -dy4;
+
+            // Apply new position
+            bouncingImage4.style.left = `${x4}px`;
+            bouncingImage4.style.top = `${y4}px`;
+
+            requestAnimationFrame(moveBouncingImage4);
+        }
+
+        // Logic for the fifth bouncing image
+        const bouncingImage5 = document.getElementById('bouncingImage5');
+        let x5 = 300, y5 = 300; // Initial position
+        let dx5 = 4, dy5 = 3; // Movement increments
+
+        function moveBouncingImage5() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const imageWidth = bouncingImage5.offsetWidth;
+            const imageHeight = bouncingImage5.offsetHeight;
+
+            // Update position
+            x5 += dx5;
+            y5 += dy5;
+
+            // Bounce off edges
+            if (x5 + imageWidth > containerWidth || x5 < 0) dx5 = -dx5;
+            if (y5 + imageHeight > containerHeight || y5 < 0) dy5 = -dy5;
+
+            // Apply new position
+            bouncingImage5.style.left = `${x5}px`;
+            bouncingImage5.style.top = `${y5}px`;
+
+            requestAnimationFrame(moveBouncingImage5);
+        }
+
+        // Start the animations for the new bouncing images
+        moveBouncingImage4();
+        moveBouncingImage5();
+
+        // Function to randomize positions of rotating cubes with a minimum distance and text exclusion
+        function randomizeCubePositions() {
+            const cubes = document.querySelectorAll('.rotating-box');
+            const minDistance = 15; // Minimum distance between cubes in percentage
+            const positions = []; // Store positions to check for overlap
+
+            cubes.forEach(cube => {
+                let randomTop, randomLeft;
+                let isTooClose;
+
+                do {
+                    randomTop = Math.random() * 90; // Random top position (0-90%)
+                    randomLeft = Math.random() * 90; // Random left position (0-90%)
+                    isTooClose = positions.some(([top, left]) => {
+                        const distance = Math.sqrt(Math.pow(randomTop - top, 2) + Math.pow(randomLeft - left, 2));
+                        return distance < minDistance;
+                    });
+                } while (
+                    isTooClose || // Ensure cubes are not too close to each other
+                    (randomTop > 25 && randomTop < 75 && randomLeft > 10 && randomLeft < 90) // Exclude middle text area
+                );
+
+                positions.push([randomTop, randomLeft]); // Save the position
+                cube.style.top = `${randomTop}%`;
+                cube.style.left = `${randomLeft}%`;
+            });
+        }
+
+        // Function to set random initial positions for bouncing images
+        function setRandomInitialPositions() {
+            const bouncingImages = [
+                document.getElementById('bouncingImage'),
+                document.getElementById('bouncingImage2'),
+                document.getElementById('bouncingImage3'),
+                document.getElementById('bouncingImage4'),
+                document.getElementById('bouncingImage5')
+            ];
+            bouncingImages.forEach(image => {
+                const randomX = Math.random() * (window.innerWidth - image.offsetWidth);
+                const randomY = Math.random() * (window.innerHeight - image.offsetHeight);
+                image.style.left = `${randomX}px`;
+                image.style.top = `${randomY}px`;
+            });
+
+            const flashingCircles = document.querySelectorAll('.flashing-circle');
+            flashingCircles.forEach(circle => {
+                const randomX = Math.random() * (window.innerWidth - 100); // Assuming circle width is 100px
+                const randomY = Math.random() * (window.innerHeight - 100); // Assuming circle height is 100px
+                circle.style.left = `${randomX}px`;
+                circle.style.top = `${randomY}px`;
+            });
+        }
+
+        // Call the function to set random positions on page load
+        window.onload = function() {
+            setRandomInitialPositions();
+            randomizeCubePositions();
+            document.getElementById('epilepsyWarning').style.display = 'flex';
+        };
+
+        // Function to dismiss the epilepsy warning and play audio
+        function dismissWarning() {
+            const warning = document.getElementById('epilepsyWarning');
+            warning.style.display = 'none';
+
+            // Play the audio
+            const audio = document.getElementById('trianonAudio');
+            audio.play();
+
+            // Start random pop-out images
+            randomPopOutImages();
+        }
+
+        // Function to redirect to index.html
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Function to randomly display images with sound effect
+        function randomPopOutImages() {
+            const images = document.querySelectorAll('.random-image');
+            const sound = document.getElementById('popSound');
+
+            setInterval(() => {
+                const randomImage = images[Math.floor(Math.random() * images.length)];
+
+                // Make the image cover the entire screen
+                randomImage.style.position = 'fixed';
+                randomImage.style.top = '0';
+                randomImage.style.left = '0';
+                randomImage.style.width = '100vw';
+                randomImage.style.height = '100vh';
+                randomImage.style.zIndex = '9999';
+                randomImage.style.display = 'block';
+
+                sound.currentTime = 0; // Reset sound to start
+                sound.play();
+
+                setTimeout(() => {
+                    randomImage.style.display = 'none';
+                }, Math.random() * 1000 + 1000); // Display for 1-2 seconds
+            }, 7000); // Trigger every 7 seconds
+        }
+    </script>
+</body>
+</html>
