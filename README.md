@@ -1,9 +1,9 @@
 # ismerosarcok
 
--sudoku
--lyrics
--gyertya
--nyugdij counter
+-sudoku ✅
+-lyrics 
+-gyertya 
+-nyugdij counter ✅
 -(térképes)
 -virtualis macska
 -metropol
@@ -12,4 +12,3 @@
 -(wordle)
 -a nap kárpátia száma
 -facebook kviz
--
