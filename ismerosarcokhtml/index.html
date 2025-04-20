@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ismerosarcoknelkuled</title>
+    <style>
+
+        .hero {
+    height: 100vh; /* teljes képernyő magas */
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #ff0000 100%), 
+                      url(ismerosarcok.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.content {
+    background-color: #ff0000; /* az a szín, amibe shadelődik */
+    color: white;
+    padding: 50px;
+    font-size: 18px;
+}
+
+        #player {
+            display: none;
+            margin-top: 20px;
+        }
+        .custom-button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .custom-button:hover {
+            background-color: #cc0000;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Hamburger menu styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ff0000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu {
+            display: none;
+            flex-direction: column;
+            background-color: #ff0000;
+            position: absolute;
+            top: 100%; /* Ensure the menu appears directly below the navbar */
+            left: 0; /* Align the menu to the left edge of the navbar */
+            width: 100%; /* Make the menu span the full width of the navbar */
+            border-radius: 0; /* Remove border radius for a seamless look */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+            background-color: #ff0000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px 0;
+        }
+
+        .menu a:hover {
+            background-color: #cc0000;
+        }
+
+        .hamburger {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active div:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active div:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active div:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        .menu.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="menu" id="menu">
+            <a href="index.html">Főoldal</a>
+            <a href="ismerossudoku.html">Sudoku játék</a>
+            <div class="button-container">
+                <div id="player"></div>
+                <button id="playButton" class="custom-button">Ismerős Arcok - Nélküled gomb</button>
+                <a href="ismerossudoku.html" class="custom-button">Sudoku játék</a>  
+            <script src="https://www.youtube.com/iframe_api"></script>
+            <script>
+                var player;
+        
+                document.getElementById('playButton').onclick = function() {
+                    if (typeof YT !== 'undefined' && YT.loaded) {
+                        player = new YT.Player('player', {
+                            height: '315',
+                            width: '560',
+                            videoId: 'KmUMvShEq-E',
+                            playerVars: {
+                                'si': 'EzL5Ixkk4QLiz5S8'
+                            },
+                            events: {
+                                'onReady': function(event) {
+                                    document.getElementById('player').style.display = 'block';
+                                    event.target.playVideo();
+                                }
+                            }
+                        });
+                    } else {
+                        setTimeout(function() {
+                            if (typeof YT !== 'undefined' && YT.loaded) {
+                                player = new YT.Player('player', {
+                                    height: '315',
+                                    width: '560',
+                                    videoId: 'KmUMvShEq-E',
+                                    playerVars: {
+                                        'si': 'EzL5Ixkk4QLiz5S8'
+                                    },
+                                    events: {
+                                        'onReady': function(event) {
+                                            document.getElementById('player').style.display = 'block';
+                                            event.target.playVideo();
+                                        }
+                                    }
+                                });
+                            } else {
+                                alert('A YouTube API nem töltődött be.');
+                            }
+                        }, 1000);
+                    }
+                };
+        
+                const hamburger = document.getElementById('hamburger');
+                const menu = document.getElementById('menu');
+        
+                hamburger.addEventListener('click', () => {
+                    hamburger.classList.toggle('active');
+                    menu.classList.toggle('show');
+                });
+    </script>
+</body>
+</html>
