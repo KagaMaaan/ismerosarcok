@@ -1,196 +1,202 @@
-<!DOCTYPE html>
-<html lang="hu">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ismerosarcoknelkuled</title>
-    <style>
+<style>
+    /* Navbar styles */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #500404;
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        z-index: 1000;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .hero {
-    height: 100vh; /* teljes képernyő magas */
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 60%, #ff0000 100%), 
-                      url(banner.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
+    .menu {
+        position: relative;
+    }
 
-.content {
-    background-color: #ff0000; /* az a szín, amibe shadelődik */
-    color: white;
-    padding: 50px;
-    font-size: 18px;
-}
+    .menu-button {
+        background-color: #500404;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
 
-        #player {
-            display: none;
-            margin-top: 20px;
-        }
-        .custom-button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .custom-button:hover {
-            background-color: #cc0000;
-        }
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
+    .menu-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #500404;
+        flex-direction: column;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        width: 250px; /* Adjusted width to better fit the text */
+    }
 
-        /* Hamburger menu styles */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ff0000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .menu-content a {
+        color: white;
+        text-decoration: none;
+        padding: 10px; /* Reduced padding to prevent text overflow */
+        display: block;
+        font-size: 16px; /* Adjusted font size to fit within the box */
+        word-wrap: break-word; /* Ensure long text wraps within the box */
+    }
 
-        .menu {
-            display: none;
-            flex-direction: column;
-            background-color: #ff0000;
-            position: absolute;
-            top: 100%; /* Ensure the menu appears directly below the navbar */
-            left: 0; /* Align the menu to the left edge of the navbar */
-            width: 100%; /* Make the menu span the full width of the navbar */
-            border-radius: 0; /* Remove border radius for a seamless look */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+    .menu-content a:hover {
+        background-color: #500404;
+    }
 
-        .menu a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            text-align: center;
-            display: inline-block;
-            font-size: 16px;
-            background-color: #ff0000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px 0;
-        }
+    .menu:hover .menu-content {
+        display: flex;
+    }
 
-        .menu a:hover {
-            background-color: #cc0000;
-        }
+    .submenu {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        background-color: #470000;
+        flex-direction: column;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        padding: 10px;
+    }
 
-        .hamburger {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
+    .menu-item:hover .submenu {
+        display: flex;
+    }
 
-        .hamburger div {
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            transition: all 0.3s;
-        }
+    .submenu a {
+        color: white;
+        text-decoration: none;
+        padding: 10px;
+        font-size: 16px;
+    }
 
-        .hamburger.active div:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
+    .submenu a:hover {
+        background-color: #1b0000;
+    }
 
-        .hamburger.active div:nth-child(2) {
-            opacity: 0;
-        }
+    .button-container {
+        margin-top: 100px;
+        text-align: center;
+    }
 
-        .hamburger.active div:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
+    .video-container {
+        display: none;
+        margin-top: 20px;
+        text-align: center;
+    }
 
-        .menu.show {
-            display: flex;
-        }
-    </style>
+    .video-container iframe {
+        border: 10px solid transparent; /* Make the border transparent */
+        border-image: url('trianon html/image/trianon1.jpg') 30 round; /* Use the image as the border */
+        border-radius: 15px; /* Keep the rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Retain the subtle shadow */
+    }
+
+    body {
+        margin: 0; /* Remove all margins from the body */
+        padding: 0; /* Remove all padding from the body */
+        box-sizing: border-box; /* Ensure consistent box model */
+    }
+
+    .header-text {
+        text-align: center; /* Center the text horizontally */
+        font-family: 'Playfair Display', serif; /* Apply a more elegant font */
+        font-size: 24px; /* Adjust font size for better visibility */
+        color: white; /* Ensure the text color contrasts well with the background */
+        margin: 0 auto; /* Center the text container */
+        width: 100%; /* Ensure it spans the full width of the header */
+    }
+    body{
+        background-image: url(images/nepek_krisztusa.png)
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap'); /* Import the font */
+
+    footer {
+        background-color: #ff0000;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        font-family: 'Playfair Display', serif; /* Apply the same font as the header */
+        font-size: 16px; /* Increase the font size */
+    }
+</style>
 </head>
 <body>
-    <div class="navbar">
-        <div class="hamburger" id="hamburger">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-        <div class="menu" id="menu">
+<div class="navbar">
+    <div class="menu">
+        <button class="menu-button">Menü</button>
+        <div class="menu-content">
             <a href="index.html">Főoldal</a>
-            <a href="ismerossudoku.html">Sudoku játék</a>
-            <div class="button-container">
-                <div id="player"></div>
-                <button id="playButton" class="custom-button">Ismerős Arcok - Nélküled gomb</button>
-                <a href="ismerossudoku.html" class="custom-button">Sudoku játék</a>  
-            <script src="https://www.youtube.com/iframe_api"></script>
-            <script>
-                var player;
-        
-                document.getElementById('playButton').onclick = function() {
-                    if (typeof YT !== 'undefined' && YT.loaded) {
-                        player = new YT.Player('player', {
-                            height: '315',
-                            width: '560',
-                            videoId: 'KmUMvShEq-E',
-                            playerVars: {
-                                'si': 'EzL5Ixkk4QLiz5S8'
-                            },
-                            events: {
-                                'onReady': function(event) {
-                                    document.getElementById('player').style.display = 'block';
-                                    event.target.playVideo();
-                                }
-                            }
-                        });
-                    } else {
-                        setTimeout(function() {
-                            if (typeof YT !== 'undefined' && YT.loaded) {
-                                player = new YT.Player('player', {
-                                    height: '315',
-                                    width: '560',
-                                    videoId: 'KmUMvShEq-E',
-                                    playerVars: {
-                                        'si': 'EzL5Ixkk4QLiz5S8'
-                                    },
-                                    events: {
-                                        'onReady': function(event) {
-                                            document.getElementById('player').style.display = 'block';
-                                            event.target.playVideo();
-                                        }
-                                    }
-                                });
-                            } else {
-                                alert('A YouTube API nem töltődött be.');
-                            }
-                        }, 1000);
-                    }
-                };
-        
-                const hamburger = document.getElementById('hamburger');
-                const menu = document.getElementById('menu');
-        
-                hamburger.addEventListener('click', () => {
-                    hamburger.classList.toggle('active');
-                    menu.classList.toggle('show');
-                });
+            <div class="menu-item">
+                <a href="#">Játékaink</a>
+                <div class="submenu">
+                    <a href="ismerossudoku.html">Sudoku</a>
+                    <a href="#">Keresztrejtvény</a>
+                </div>
+            </div>
+            <div class="menu-item">
+                <a href="#">Más oldalainkra</a>
+                <div class="submenu">
+                    <a href="Dr.Cigány html/DrCigany.html">Dr. Cigány</a>
+                    <a href="#">Nyugdíj</a>
+                    <a href="trianon html/trianon.html">Trianon</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="header-text">Annyi mindent kéne még elmondanom</div>
+</div>
+
+<div class="button-container">
+    <button id="playButton" class="custom-button">Ismerős Arcok - Nélküled</button>
+</div>
+
+<div class="video-container" id="videoContainer">
+    <iframe id="videoFrame" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+</div>
+
+<section class="gallery" style="margin-top: 50px; text-align: center;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 24px; color: #ffffff;">Galéria</h2>
+    <div class="gallery-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+        <img src="images/kep1.jpg" alt="Meme 1" style="width: 200px; height: auto; border-radius: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <img src="images/kep2.jpg" alt="Meme 2" style="width: 200px; height: auto; border-radius: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <img src="images/kep3.jpg" alt="Meme 3" style="width: 200px; height: auto; border-radius: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <img src="images/kep4.jpg" alt="Meme 4" style="width: 200px; height: auto; border-radius: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <img src="images/kep5.jpg" alt="Meme 5" style="width: 200px; height: auto; border-radius: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <img src="images/kep6.jpg" alt="Meme 6" style="width: 200px; height: auto; border-radius: auto; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    </div>
+</section>
+
+<script>
+        document.getElementById('playButton').onclick = function() {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoFrame = document.getElementById('videoFrame');
+
+            if (videoContainer.style.display === 'block') {
+                videoContainer.style.display = 'none';
+                videoFrame.src = ''; // Stop the video
+            } else {
+                videoFrame.src = 'https://www.youtube.com/embed/KmUMvShEq-E?autoplay=1';
+                videoContainer.style.display = 'block';
+            }
+        };
     </script>
+
+<footer style="background-color: #500404; color: white; text-align: center; padding: 20px; position: fixed; bottom: 0; width: 100%;">
+            <p>&copy; 2025 Ismerős Arcok. Minden jog fenntartva. Made by Bájgúnár & Kagamaaan</p>
+        </footer>
 </body>
 </html>
